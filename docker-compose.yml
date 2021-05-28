@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  school:
+    build: .
+    container_name: school
+    command: bash -c "uvicorn school.asgi:application --reload --host 0.0.0.0 --port 8000"
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
