@@ -1,6 +1,7 @@
 version: "3.8"
 
 services:
+
   school:
     build: .
     container_name: school
@@ -9,3 +10,20 @@ services:
       - .:/code
     ports:
       - 8000:8000
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@school_db:5432/school
+
+  db:
+    image: postgres:12.0-alpine
+    container_name: school_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: school
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+volumes:
+  postgres_data:
