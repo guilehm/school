@@ -55,11 +55,11 @@ class User(AbstractUser):
     students = models.ManyToManyField(
         'core.Student',
         through='core.TeacherStudentRelation',
-        blank=True,
+        through_fields=('teacher', 'student'),
         related_name='student_users',
         verbose_name=_('Students'),
         symmetrical=False,
-        through_fields=('teacher', 'student'),
+        blank=True,
     )
     teachers = models.ManyToManyField(
         'core.Teacher',
@@ -79,6 +79,14 @@ class Teacher(User):
     class Meta:
         proxy = True
 
+    @property
+    def relation_name(self):
+        return 'students'
+
+    @property
+    def relation(self):
+        return self.students.all()
+
     def save(self, *args, **kwargs):
         if not self.pk:
             self.type = self.TYPE_TEACHER
@@ -90,6 +98,14 @@ class Student(User):
 
     class Meta:
         proxy = True
+
+    @property
+    def relation_name(self):
+        return 'teachers'
+
+    @property
+    def relation(self):
+        return self.teachers.all()
 
     def save(self, *args, **kwargs):
         if not self.pk:
