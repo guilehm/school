@@ -12,6 +12,6 @@ def user_table(instances, col1, col2):
     }
 
 
-@register.inclusion_tag('core/tags/user-add-form.html')
-def user_add_form(form, name):
+@register.inclusion_tag('core/tags/user-change-form.html')
+def user_change_form(form, name):
     return {'form': form, 'name': name}
