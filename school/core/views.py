@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 
-from school.core.forms import TeacherForm, StudentForm
+from school.core.forms import TeacherForm, StudentForm, TeacherChangeForm
 from school.core.models import Teacher, Student
 
 
@@ -30,4 +30,30 @@ def index(request):
         'students': students,
         'teacher_form': teacher_form,
         'student_form': student_form,
+    })
+
+
+def teacher_list(request):
+    teachers = Teacher.objects.all()
+    return render(request, 'core/user-list.html', {
+        'instances': teachers,
+        'name': 'teachers',
+        'relation_name': 'students',
+    })
+
+
+def teacher_detail(request, pk):
+    teacher = get_object_or_404(Teacher, pk=pk)
+    form = TeacherChangeForm(instance=teacher, data=request.POST or None)
+
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.add_message(request, messages.SUCCESS, 'Success updating teacher.')
+        return redirect('teacher-detail', pk=pk)
+
+    return render(request, 'core/user-detail.html', {
+        'instance': teacher,
+        'form': form,
+        'name': 'teacher',
+        'method': 'update',
     })
