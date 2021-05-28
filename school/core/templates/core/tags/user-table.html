@@ -1,0 +1,18 @@
+<table class="table table-sm table-hover mb-4">
+    <thead>
+    <tr>
+        <th scope="col" class="text-center">#</th>
+        <th scope="col">{{ col1 }}</th>
+        <th scope="col" class="text-center">{{ col2 }} count</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for instance in instances %}
+        <tr>
+            <td class="text-center">{{ instance.id }}</td>
+            <td>{{ instance.username }}</td>
+            <td class="text-center">{{ instance.relation.count }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
