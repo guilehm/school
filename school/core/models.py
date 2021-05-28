@@ -19,8 +19,16 @@ class TeacherManager(BaseUserManager):
 
 
 class TeacherStudentRelation(models.Model):
-    teacher = models.ForeignKey('core.User', related_name='teacher_student_relations', on_delete=models.CASCADE)
-    student = models.ForeignKey('core.Student', related_name='student_teacher_relations', on_delete=models.CASCADE)
+    teacher = models.ForeignKey(
+        'core.User',
+        related_name='teacher_student_relations',
+        on_delete=models.CASCADE,
+    )
+    student = models.ForeignKey(
+        'core.Student',
+        related_name='student_teacher_relations',
+        on_delete=models.CASCADE,
+    )
     starred = models.BooleanField(_('starred'), default=False)
 
     def __str__(self):
@@ -37,7 +45,13 @@ class User(AbstractUser):
         (TYPE_STUDENT, _('Student')),
         (TYPE_TEACHER, _('Teacher')),
     )
-    type = models.CharField(_('type'), max_length=8, default=TYPE_STUDENT, db_index=True)
+
+    type = models.CharField(
+        _('type'),
+        max_length=8,
+        default=TYPE_STUDENT,
+        db_index=True,
+    )
     students = models.ManyToManyField(
         'core.Student',
         through='core.TeacherStudentRelation',
