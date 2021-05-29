@@ -35,4 +35,7 @@ migrate:
 showmigrations:
 	-$(DOCKER_COMPOSE) exec $(BACKEND_SERVICE) python manage.py showmigrations
 
+superuser:
+	-$(DOCKER_COMPOSE) exec $(BACKEND_SERVICE) python manage.py createsuperuser
+
 mm: migrations migrate
