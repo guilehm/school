@@ -30,13 +30,3 @@
     {% endfor %}
     </tbody>
 </table>
-{% block scripts %}
-    <script>
-    const toggleStarred = (teacher, student) => {
-        fetch('/star/', {
-          method: 'post',
-          body: JSON.stringify({teacher, student})
-        })
-    }
-    </script>
-{% endblock %}

@@ -12,4 +12,9 @@
             {% user_table instance.relation instance.relation_name '' instance %}
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            {% user_available_table instance.not_related instance %}
+        </div>
+    </div>
 {% endblock %}

@@ -37,5 +37,20 @@
         crossorigin="anonymous"></script>
 {% block scripts %}
 {% endblock %}
+<script>
+const toggleStarred = (teacher, student) => {
+    fetch('/stars/', {
+      method: 'post',
+      body: JSON.stringify({teacher, student})
+    })
+}
+
+const addRelation = (teacher, student) => {
+    fetch('/relations/', {
+        method: 'post',
+        body: JSON.stringify({teacher, student})
+    }).then(() => document.location.reload(true))
+}
+</script>
 </body>
 </html>

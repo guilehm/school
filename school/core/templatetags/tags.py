@@ -15,6 +15,14 @@ def user_table(instances, col1, col2=None, instance=None):
     }
 
 
+@register.inclusion_tag('core/tags/user-available-table-tag.html')
+def user_available_table(instances, instance=None):
+    return {
+        'instance': instance,
+        'instances': instances,
+    }
+
+
 @register.inclusion_tag('core/tags/user-change-form-tag.html')
 def user_change_form(form, name, method=None):
     return {'form': form, 'name': name, 'method': method}

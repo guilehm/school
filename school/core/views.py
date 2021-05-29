@@ -1,7 +1,8 @@
 import json
 
 from django.contrib import messages
-from django.http import HttpResponseBadRequest, JsonResponse
+from django.db import IntegrityError
+from django.http import HttpResponseBadRequest, JsonResponse, HttpResponseNotAllowed
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
 
@@ -64,7 +65,10 @@ def teacher_detail(request, pk):
 
 
 @csrf_exempt
-def star_teacher_user_relation(request):
+def star_teacher_student_relation(request):
+    if request.method != 'POST':
+        return HttpResponseNotAllowed(permitted_methods=('post',))
+
     data = json.loads(request.body)
     try:
         relation = TeacherStudentRelation.objects.get(
@@ -74,5 +78,19 @@ def star_teacher_user_relation(request):
         relation.starred = not relation.starred
         relation.save(update_fields=('starred',))
     except (KeyError, TeacherStudentRelation.DoesNotExist):
+        return HttpResponseBadRequest()
+    return JsonResponse({'success': True})
+
+
+@csrf_exempt
+def create_teacher_student_relation(request):
+    if request.method != 'POST':
+        return HttpResponseNotAllowed(permitted_methods=('post',))
+
+    data = json.loads(request.body)
+    try:
+        student = Student.objects.get(id=data['student'])
+        student.teachers.add(data['teacher'])
+    except (KeyError, IntegrityError):
         return HttpResponseBadRequest()
     return JsonResponse({'success': True})

@@ -1,0 +1,23 @@
+{% load tags %}
+<table class="table table-sm table-hover mb-4">
+    <thead>
+    <tr>
+        <th scope="col" class="text-center">#</th>
+        <th scope="col">{{ col1|default:instance.relation_name }}</th>
+        <th scope="col" class="text-center">associate</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for available_instance in instances %}
+        <tr>
+            <td class="text-center">{{ available_instance.id }}</td>
+            <td><a href="{{ available_instance.get_absolute_url }}" class="link">{{ available_instance.username }}</a></td>
+            {% if instance.relation_name == 'students' %}
+            <td class="text-center"><button class="btn btn-primary btn-sm" onclick="addRelation({{ instance.id }}, {{ available_instance.id }})">add</button></td>
+            {% else %}
+            <td class="text-center"><button class="btn btn-primary btn-sm" onclick="addRelation({{ available_instance.id }}, {{ instance.id }})">add</button></td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
