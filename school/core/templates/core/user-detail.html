@@ -8,5 +8,8 @@
         <div class="col-md-6">
             {% user_change_form form name method %}
         </div>
+        <div class="col-md-6">
+            {% user_table instance.relation instance.relation_name '' instance %}
+        </div>
     </div>
 {% endblock %}
