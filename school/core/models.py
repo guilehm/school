@@ -1,6 +1,8 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models import Q
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 
@@ -79,6 +81,9 @@ class Teacher(User):
     class Meta:
         proxy = True
 
+    def get_absolute_url(self):
+        return reverse('teacher-detail', kwargs={'pk': self.pk})
+
     @property
     def relation_name(self):
         return 'students'
@@ -86,6 +91,12 @@ class Teacher(User):
     @property
     def relation(self):
         return self.students.all()
+
+    @property
+    def not_related(self):
+        return Student.objects.filter(
+            ~Q(id__in=self.students.values_list('id')),
+        )
 
     def save(self, *args, **kwargs):
         if not self.pk:
@@ -106,6 +117,12 @@ class Student(User):
     @property
     def relation(self):
         return self.teachers.all()
+
+    @property
+    def not_related(self):
+        return Teacher.objects.filter(
+            ~Q(id__in=self.teachers.values_list('id')),
+        )
 
     def save(self, *args, **kwargs):
         if not self.pk:
