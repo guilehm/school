@@ -51,7 +51,7 @@ class TestStudentRelations:
         )
         assert student.teachers.exists() is True
 
-    def test_should_set_disabled_starred_default_for_relation(self, student, teacher):
+    def test_should_set_starred_default_as_false_for_relation(self, student, teacher):
         relation = TeacherStudentRelation.objects.create(
             teacher=teacher,
             student=student,
@@ -70,3 +70,19 @@ class TestStudentRelations:
                 teacher=teacher,
                 student=student,
             )
+
+    def test_should_remove_reverse_relation(self, relation):
+        student = relation.student
+        teacher = relation.teacher
+
+        assert TeacherStudentRelation.objects.exists() is True
+
+        assert teacher in student.teachers.all()
+        assert student in teacher.students.all()
+
+        student.teachers.remove(teacher)
+
+        assert teacher not in student.teachers.all()
+        assert student not in teacher.students.all()
+
+        assert TeacherStudentRelation.objects.exists() is False

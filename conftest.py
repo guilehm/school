@@ -1,6 +1,6 @@
 import pytest
 
-from school.core.models import Student, Teacher
+from school.core.models import Student, Teacher, TeacherStudentRelation
 
 
 @pytest.fixture
@@ -14,4 +14,13 @@ def student():
 def teacher():
     return Teacher.objects.create(
         username='gandalf',
+    )
+
+
+@pytest.fixture
+def relation(student, teacher):
+    return TeacherStudentRelation.objects.create(
+        teacher=teacher,
+        student=student,
+        starred=False,
     )
