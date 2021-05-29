@@ -1,0 +1,11 @@
+{% extends 'core/_base.html' %}
+{% load tags %}
+
+
+{% block styles %}
+{% endblock %}
+{% block body %}
+    <div class="row">
+    {% user_table instances name relation_name %}
+    </div>
+{% endblock %}

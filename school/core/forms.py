@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.hashers import make_password
 
 from school.core.models import Teacher, Student
 
@@ -13,6 +14,9 @@ class UserForm(forms.ModelForm):
             'password': forms.PasswordInput(),
         }
 
+    def clean_password(self):
+        return make_password(self.cleaned_data['password'])
+
 
 class TeacherForm(UserForm):
     class Meta(UserForm.Meta):
@@ -22,3 +26,10 @@ class TeacherForm(UserForm):
 class StudentForm(UserForm):
     class Meta(UserForm.Meta):
         model = Student
+
+
+class TeacherChangeForm(TeacherForm):
+    class Meta(TeacherForm.Meta):
+        fields = (
+            'username',
+        )

@@ -1,5 +1,5 @@
 <form class="mb-5" method="post" action="?type={{ name }}" autocomplete="off">
-    <strong>create {{ name }}</strong>
+    <strong>{{ method|default:'create' }} {{ name }}</strong>
     <fieldset>
     {% csrf_token %}
     {% for field in form %}

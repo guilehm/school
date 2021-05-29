@@ -10,7 +10,7 @@
     {% for instance in instances %}
         <tr>
             <td class="text-center">{{ instance.id }}</td>
-            <td>{{ instance.username }}</td>
+            <td><a href="{{ instance.get_absolute_url }}" class="link">{{ instance.username }}</a></td>
             <td class="text-center">{{ instance.relation.count }}</td>
         </tr>
     {% endfor %}
