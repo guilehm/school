@@ -13,6 +13,8 @@ services:
       - .:/code
     ports:
       - 8000:8000
+    depends_on:
+      - db
     environment:
       DATABASE_URL: postgres://postgres:postgres@school_db:5432/school
       DJANGO_SETTINGS_MODULE: school.settings
