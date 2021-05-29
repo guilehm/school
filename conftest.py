@@ -1,6 +1,12 @@
 import pytest
+from django.test import Client
 
 from school.core.models import Student, Teacher, TeacherStudentRelation
+
+
+@pytest.fixture
+def client():
+    return Client()
 
 
 @pytest.fixture
