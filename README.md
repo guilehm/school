@@ -80,14 +80,16 @@ Students [http://localhost:8000/students/](http://localhost:8000/students/)
 
 **Teacher and Student detail:**
 
-Teachers http://localhost:8000/teachers/<teacher-id>/
+**replace `ID` with teacher or student `id`.*
 
-Students http://localhost:8000/students/<student-id>/
+Teachers http://localhost:8000/teachers/ID/
+
+Students http://localhost:8000/students/ID/
 
 
 **Creating relations:**
 
-At teacher or student detail pages, you may create the relation clicking in the `add` button:
+At teacher or student detail pages, you may create the relation between them by clicking in the `add` button:
 
 ![Screenshot from 2021-05-29 15-35-37](https://user-images.githubusercontent.com/33688752/120081334-8b9d4f00-c093-11eb-91dd-f11f142c778e.png)
 
