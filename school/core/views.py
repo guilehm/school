@@ -6,7 +6,7 @@ from django.http import HttpResponseBadRequest, JsonResponse, HttpResponseNotAll
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
 
-from school.core.forms import TeacherForm, StudentForm, TeacherChangeForm
+from school.core.forms import TeacherForm, StudentForm, TeacherChangeForm, StudentChangeForm
 from school.core.models import Teacher, Student, TeacherStudentRelation
 
 
@@ -47,6 +47,15 @@ def teacher_list(request):
     })
 
 
+def student_list(request):
+    students = Student.objects.all()
+    return render(request, 'core/user-list.html', {
+        'instances': students,
+        'name': 'students',
+        'relation_name': 'teachers',
+    })
+
+
 def teacher_detail(request, pk):
     teacher = get_object_or_404(Teacher, pk=pk)
     form = TeacherChangeForm(instance=teacher, data=request.POST or None)
@@ -60,6 +69,23 @@ def teacher_detail(request, pk):
         'instance': teacher,
         'form': form,
         'name': 'teacher',
+        'method': 'update',
+    })
+
+
+def student_detail(request, pk):
+    student = get_object_or_404(Student, pk=pk)
+    form = StudentChangeForm(instance=student, data=request.POST or None)
+
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.add_message(request, messages.SUCCESS, 'Success updating student.')
+        return redirect('student-detail', pk=pk)
+
+    return render(request, 'core/user-detail.html', {
+        'instance': student,
+        'form': form,
+        'name': 'student',
         'method': 'update',
     })
 
@@ -91,6 +117,6 @@ def create_teacher_student_relation(request):
     try:
         student = Student.objects.get(id=data['student'])
         student.teachers.add(data['teacher'])
-    except (KeyError, IntegrityError):
+    except (KeyError, IntegrityError, Student.DoesNotExist):
         return HttpResponseBadRequest()
     return JsonResponse({'success': True})

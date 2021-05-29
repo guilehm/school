@@ -33,3 +33,10 @@ class TeacherChangeForm(TeacherForm):
         fields = (
             'username',
         )
+
+
+class StudentChangeForm(StudentForm):
+    class Meta(StudentForm.Meta):
+        fields = (
+            'username',
+        )

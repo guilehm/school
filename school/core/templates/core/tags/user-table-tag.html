@@ -6,7 +6,7 @@
         <th scope="col">{{ col1 }}</th>
         {% if col2 %}
         <th scope="col" class="text-center">{{ col2 }} count</th>
-        {% else %}
+        {% elif instance.relation_name == 'students' %}
         <th scope="col" class="text-center">starred</th>
         {% endif %}
     </tr>
@@ -18,7 +18,7 @@
             <td><a href="{{ related_instance.get_absolute_url }}" class="link">{{ related_instance.username }}</a></td>
             {% if col2 %}
             <td class="text-center">{{ related_instance.relation.count }}</td>
-            {% else %}
+            {% elif instance.relation_name == 'students' %}
             <td class="text-center">
                 <input onclick="toggleStarred({{ instance.id }}, {{ related_instance.id }})"
                        type="checkbox" class="form-check-input"

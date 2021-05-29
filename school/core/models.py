@@ -110,6 +110,9 @@ class Student(User):
     class Meta:
         proxy = True
 
+    def get_absolute_url(self):
+        return reverse('student-detail', kwargs={'pk': self.pk})
+
     @property
     def relation_name(self):
         return 'teachers'
