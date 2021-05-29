@@ -155,6 +155,18 @@ query {
 }
 ```
 
+Mutation to toggle the `starred` field for the relation between Teacher and Student:
+```graphql
+mutation myMutation {
+  toggleStarred(studentId: 3, teacherId: 1) {
+    relation {
+      id
+      username
+      starred
+    }
+  }
+}
+```
 
 
 ## Troubleshooting
