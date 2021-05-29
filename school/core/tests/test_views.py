@@ -5,6 +5,10 @@ from django.urls import reverse
 @pytest.mark.django_db
 class TestViews:
 
+    @pytest.fixture
+    def star_relation_url(self):
+        return reverse('stars')
+
     def test_should_return_200_for_teacher_and_student_list_endpoints(self, client):
         teacher_list_url = reverse('teacher-list')
         student_list_url = reverse('student-list')
@@ -28,16 +32,14 @@ class TestViews:
         assert student_detail_response.status_code == 200
 
     def test_should_not_accept_other_methods_than_post_in_star_relation_endpoint(
-            self, client,
+            self, client, star_relation_url
     ):
-        star_relation_url = reverse('stars')
         response = client.get(star_relation_url)
         assert response.status_code == 405
 
     def test_should_return_bad_request_for_wrong_payload_in_star_relation_endpoint(
-            self, client, relation
+            self, client, star_relation_url, relation
     ):
-        star_relation_url = reverse('stars')
         response = client.post(
             star_relation_url,
             data={'wrong': 'payload'},
@@ -46,9 +48,8 @@ class TestViews:
         assert response.status_code == 400
 
     def test_should_return_bad_request_if_relation_does_not_exists_in_star_relation_endpoint(
-            self, client, teacher, student
+            self, client, star_relation_url, teacher, student
     ):
-        star_relation_url = reverse('stars')
         response = client.post(
             star_relation_url,
             data={'teacher': teacher.id, 'student': student.id},
@@ -57,12 +58,25 @@ class TestViews:
         assert response.status_code == 400
 
     def test_should_return_200_for_correct_payload_in_star_relation_endpoint(
-            self, client, teacher, student, relation
+            self, client, star_relation_url, teacher, student, relation
     ):
-        star_relation_url = reverse('stars')
         response = client.post(
             star_relation_url,
             data={'teacher': teacher.id, 'student': student.id},
             content_type='application/json',
         )
         assert response.status_code == 200
+
+    def test_should_set_starred_relation_in_star_relation_endpoint(
+            self, client, star_relation_url, teacher, student, relation
+    ):
+        assert relation.starred is False
+
+        client.post(
+            star_relation_url,
+            data={'teacher': teacher.id, 'student': student.id},
+            content_type='application/json',
+        )
+
+        relation.refresh_from_db()
+        assert relation.starred is True
