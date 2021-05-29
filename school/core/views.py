@@ -11,8 +11,8 @@ from school.core.models import Student, Teacher, TeacherStudentRelation
 
 
 def index(request):
-    teachers = Teacher.objects.all()
-    students = Student.objects.all()
+    teachers = Teacher.objects.prefetch_related('students').all()
+    students = Student.objects.prefetch_related('teachers').all()
 
     changed_form = request.GET.get('type', '')
     teacher_form_has_changed = Teacher.TYPE_TEACHER in changed_form
