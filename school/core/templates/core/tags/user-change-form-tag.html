@@ -1,11 +1,11 @@
 <form class="mb-5" method="post" action="?type={{ name }}" autocomplete="off">
-    <strong>{{ method|default:'create' }} {{ name }}</strong>
+    <strong>{{ method|default:'create' }} <a href="/{{ name }}" class="link">{{ name }}</a></strong>
     <fieldset>
     {% csrf_token %}
     {% for field in form %}
     <div class="mb-3">
-        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label|lower }}:</label>
-        <input name="{{ field.name }}" type="{{ field.widget_type }}" class="form-control form-control-sm" id="{{ field.id_for_label }}" value="{{ field.value|default:'' }}">
+        <label for="{{ name }}-{{ field.id_for_label }}" class="form-label">{{ field.label|lower }}:</label>
+        <input name="{{ field.name }}" type="{{ field.widget_type }}" class="form-control form-control-sm" id="{{ name }}-{{ field.id_for_label }}" value="{{ field.value|default:'' }}">
         {% for error in field.errors %}
             <small class="form-text text-danger">{{ error }}</small>
         {% endfor %}
