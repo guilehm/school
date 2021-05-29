@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import Q
 from django.urls import reverse
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
 
@@ -88,11 +89,11 @@ class Teacher(User):
     def relation_name(self):
         return 'students'
 
-    @property
+    @cached_property
     def relation(self):
         return self.students.all()
 
-    @property
+    @cached_property
     def not_related(self):
         return Student.objects.filter(
             ~Q(id__in=self.students.values_list('id')),
@@ -117,11 +118,11 @@ class Student(User):
     def relation_name(self):
         return 'teachers'
 
-    @property
+    @cached_property
     def relation(self):
         return self.teachers.all()
 
-    @property
+    @cached_property
     def not_related(self):
         return Teacher.objects.filter(
             ~Q(id__in=self.teachers.values_list('id')),
