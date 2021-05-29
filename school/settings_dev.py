@@ -1,6 +1,5 @@
 from school.settings import *
 
-
 MIDDLEWARE += [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]

@@ -1,7 +1,7 @@
 import pytest
 from django.db import IntegrityError
 
-from school.core.models import Teacher, User, TeacherStudentRelation
+from school.core.models import Teacher, TeacherStudentRelation, User
 
 
 @pytest.mark.django_db

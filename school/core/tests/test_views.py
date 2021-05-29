@@ -1,8 +1,6 @@
 import pytest
 from django.urls import reverse
 
-from school.core.models import TeacherStudentRelation
-
 
 @pytest.mark.django_db
 class TestViews:
