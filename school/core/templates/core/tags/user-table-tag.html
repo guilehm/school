@@ -1,0 +1,32 @@
+{% load tags %}
+<table class="table table-sm table-hover mb-4">
+    <thead>
+    <tr>
+        <th scope="col" class="text-center">#</th>
+        <th scope="col">{{ col1 }}</th>
+        {% if col2 %}
+        <th scope="col" class="text-center">{{ col2 }} count</th>
+        {% elif instance.relation_name == 'students' %}
+        <th scope="col" class="text-center">starred</th>
+        {% endif %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for related_instance in instances %}
+        <tr>
+            <td class="text-center">{{ related_instance.id }}</td>
+            <td><a href="{{ related_instance.get_absolute_url }}" class="link">{{ related_instance.username }}</a></td>
+            {% if col2 %}
+            <td class="text-center">{{ related_instance.relation.count }}</td>
+            {% elif instance.relation_name == 'students' %}
+            <td class="text-center">
+                <input onclick="toggleStarred({{ instance.id }}, {{ related_instance.id }})"
+                       type="checkbox" class="form-check-input"
+                       id="starred-input-{{ related_instance.id }}" {% if instance|is_starred:related_instance %}checked {% endif %}>
+                <label class="form-check-label" for="starred-input-{{ related_instance.id }}"></label>
+            </td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

@@ -1,17 +1,17 @@
-from django.db.models.signals import m2m_changed, pre_save, pre_delete
+from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
 
-from school.core.models import Teacher, Student, TeacherStudentRelation
+from school.core.models import Student, Teacher, TeacherStudentRelation
 
 
-@receiver(pre_save, sender=TeacherStudentRelation)
+@receiver(post_save, sender=TeacherStudentRelation)
 def create_reverse_relation(sender, **kwargs):
     teacher = kwargs['instance'].teacher
     student = kwargs['instance'].student
     student.teachers.add(teacher.id)
 
 
-@receiver(pre_delete, sender=TeacherStudentRelation)
+@receiver(post_delete, sender=TeacherStudentRelation)
 def delete_reverse_relation(sender, **kwargs):
     teacher = kwargs['instance'].teacher
     student = kwargs['instance'].student

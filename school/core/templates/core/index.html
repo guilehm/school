@@ -1,0 +1,21 @@
+{% extends 'core/_base.html' %}
+{% load tags %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-6">
+            {% user_change_form teacher_form 'teachers' %}
+        </div>
+        <div class="col-md-6">
+            {% user_change_form student_form 'students' %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            {% user_table teachers 'teachers' 'students' %}
+        </div>
+        <div class="col-md-6">
+            {% user_table students 'students' 'teachers' %}
+        </div>
+    </div>
+{% endblock %}

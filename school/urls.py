@@ -16,6 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from school.core import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.index, name='index'),
+    path('relations/', views.create_teacher_student_relation, name='relations-add'),
+    path('stars/', views.star_teacher_student_relation, name='stars'),
+    path('students/', views.student_list, name='student-list'),
+    path('students/<int:pk>/', views.student_detail, name='student-detail'),
+    path('teachers/', views.teacher_list, name='teacher-list'),
+    path('teachers/<int:pk>/', views.teacher_detail, name='teacher-detail'),
 ]

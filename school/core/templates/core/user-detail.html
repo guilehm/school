@@ -1,0 +1,20 @@
+{% extends 'core/_base.html' %}
+{% load tags %}
+
+{% block styles %}
+{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-6">
+            {% user_change_form form name method %}
+        </div>
+        <div class="col-md-6">
+            {% user_table instance.relation instance.relation_name '' instance %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            {% user_available_table instance.not_related instance %}
+        </div>
+    </div>
+{% endblock %}
