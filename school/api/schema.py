@@ -86,4 +86,26 @@ class Query(graphene.ObjectType):
             return None
 
 
-schema = graphene.Schema(query=Query)
+class TeacherStudentRelationMutation(graphene.Mutation):
+    class Arguments:
+        teacher_id = graphene.ID()
+        student_id = graphene.ID()
+
+    relation = graphene.Field(TeacherStudentRelationType)
+
+    @classmethod
+    def mutate(cls, root, info, teacher_id, student_id):
+        relation = TeacherStudentRelation.objects.get(
+            teacher_id=teacher_id,
+            student_id=student_id,
+        )
+        relation.starred = not relation.starred
+        relation.save(update_fields=('starred',))
+        return TeacherStudentRelationMutation(relation=relation)
+
+
+class Mutation(graphene.ObjectType):
+    toggle_starred = TeacherStudentRelationMutation.Field()
+
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
