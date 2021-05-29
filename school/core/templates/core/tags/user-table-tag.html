@@ -20,7 +20,9 @@
             <td class="text-center">{{ related_instance.relation.count }}</td>
             {% else %}
             <td class="text-center">
-                <input type="checkbox" class="form-check-input" id="starred-input-{{ related_instance.id }}" {% if instance|is_starred:related_instance %}checked {% endif %}>
+                <input onclick="toggleStarred({{ instance.id }}, {{ related_instance.id }})"
+                       type="checkbox" class="form-check-input"
+                       id="starred-input-{{ related_instance.id }}" {% if instance|is_starred:related_instance %}checked {% endif %}>
                 <label class="form-check-label" for="starred-input-{{ related_instance.id }}"></label>
             </td>
             {% endif %}
@@ -28,3 +30,13 @@
     {% endfor %}
     </tbody>
 </table>
+{% block scripts %}
+    <script>
+    const toggleStarred = (teacher, student) => {
+        fetch('/star/', {
+          method: 'post',
+          body: JSON.stringify({teacher, student})
+        })
+    }
+    </script>
+{% endblock %}

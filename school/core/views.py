@@ -1,8 +1,12 @@
+import json
+
 from django.contrib import messages
+from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.decorators.csrf import csrf_exempt
 
 from school.core.forms import TeacherForm, StudentForm, TeacherChangeForm
-from school.core.models import Teacher, Student
+from school.core.models import Teacher, Student, TeacherStudentRelation
 
 
 def index(request):
@@ -57,3 +61,18 @@ def teacher_detail(request, pk):
         'name': 'teacher',
         'method': 'update',
     })
+
+
+@csrf_exempt
+def star_teacher_user_relation(request):
+    data = json.loads(request.body)
+    try:
+        relation = TeacherStudentRelation.objects.get(
+            teacher_id=data['teacher'],
+            student_id=data['student'],
+        )
+        relation.starred = not relation.starred
+        relation.save(update_fields=('starred',))
+    except (KeyError, TeacherStudentRelation.DoesNotExist):
+        return HttpResponseBadRequest()
+    return JsonResponse({'success': True})
