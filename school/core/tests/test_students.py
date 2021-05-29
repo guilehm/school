@@ -37,7 +37,7 @@ class TestStudentRelations:
         student.teachers.add(teacher)
         assert student.teachers.exists() is True
 
-    def test_should_create_reverse_association_adding_teachers_to_users(
+    def test_should_create_reverse_association_adding_students_to_teachers(
             self, student, teacher
     ):
         assert teacher.students.exists() is False
