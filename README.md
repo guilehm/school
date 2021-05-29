@@ -66,7 +66,7 @@ Start the app
 
 **Creating Teachers and Students:**
 
-There is authentication implemented. So you only need to fill the username and the password to create instances.
+There is no authentication implemented. So you only need to fill the username and the password to create instances.
 
 ![Screenshot from 2021-05-29 15-16-16](https://user-images.githubusercontent.com/33688752/120080834-f7ca8380-c090-11eb-84e1-da364eabc723.png)
 
