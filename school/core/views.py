@@ -2,12 +2,12 @@ import json
 
 from django.contrib import messages
 from django.db import IntegrityError
-from django.http import HttpResponseBadRequest, JsonResponse, HttpResponseNotAllowed
-from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.csrf import csrf_exempt
 
-from school.core.forms import TeacherForm, StudentForm, TeacherChangeForm, StudentChangeForm
-from school.core.models import Teacher, Student, TeacherStudentRelation
+from school.core.forms import StudentChangeForm, StudentForm, TeacherChangeForm, TeacherForm
+from school.core.models import Student, Teacher, TeacherStudentRelation
 
 
 def index(request):

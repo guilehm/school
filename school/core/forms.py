@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.hashers import make_password
 
-from school.core.models import Teacher, Student
+from school.core.models import Student, Teacher
 
 
 class UserForm(forms.ModelForm):

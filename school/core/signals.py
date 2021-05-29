@@ -1,7 +1,7 @@
-from django.db.models.signals import post_save, post_delete, m2m_changed
+from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
 
-from school.core.models import Teacher, Student, TeacherStudentRelation
+from school.core.models import Student, Teacher, TeacherStudentRelation
 
 
 @receiver(post_save, sender=TeacherStudentRelation)
